@@ -1,0 +1,27 @@
+vector<string> Solution::restoreIpAddresses(string A) {
+    int n = A.length();
+    vector<string> tmp;
+    if(n < 4 and n > 12)
+        return tmp;
+    
+    for(int i = 0; i < n-3; i++){
+        string s1 = A.substr(0,i+1);
+        for(int k = n-1; k >= i+3; k--){
+            string s2 = A.substr(k,n-k);
+            int j = i+1;
+            while(j < k-1){
+                string s3 = A.substr(i+1,j-i);
+                string s4 = A.substr(j+1,k-j-1);
+                if(s1.length() < 4 and s2.length() < 4 and s3.length() < 4 and s4.length() < 4){
+                    if(stoi(s3) <= 255 and stoi(s4) <= 255 and stoi(s1) <= 255 and stoi(s2) <= 255){
+                        if((s1[0] != '0' or s1 == "0") and (s4[0] != '0' or s4 == "0") and (s2[0] != '0' or s2 == "0") and (s3[0] != '0' or s3 == "0"))
+                            tmp.push_back(s1 + "." + s3 + "." + s4 + "." + s2); //last if checks leading zeroes and discards such strings.
+                    }
+                }
+                ++j;
+            }
+        }
+    }
+    sort(tmp.begin(), tmp.end());
+    return tmp;
+}
